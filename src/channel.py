@@ -15,9 +15,9 @@ class Channel:
         self.title = channel['items'][0]['snippet']['title']
         self.description = channel['items'][0]['snippet']['description']
         self.url = channel['items'][0]['snippet']["thumbnails"]["default"]["url"]
-        self.subscribercount = channel['items'][0]["statistics"]['subscriberCount']
+        self.subscriber_count = channel['items'][0]["statistics"]['subscriberCount']
         self.video_count = channel['items'][0]["statistics"]['videoCount']
-        self.viewcount = channel['items'][0]["statistics"]['viewCount']
+        self.view_count = channel['items'][0]["statistics"]['viewCount']
 
     def print_info(self) -> None:
         """Выводит в консоль информацию о канале."""
@@ -28,5 +28,13 @@ class Channel:
     def get_service(cls):
         return cls.youtube
 
-    def to_json(self, dict_to_print):
-        json.dumps(dict_to_print, indent=2, ensure_ascii=False)
+    def to_json(self, filename):
+        with open(filename, 'w') as file:
+            file.write(json.dumps({
+                "channel_id": self.channel_id,
+                "title": self.title,
+                "description": self.description,
+                "subscriber_count": self.subscriber_count,
+                "video_count": self.video_count,
+                "view_count": self.view_count
+            }, indent=2, ensure_ascii=False))
