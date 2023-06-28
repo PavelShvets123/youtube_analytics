@@ -14,7 +14,7 @@ class Channel:
         self.channel_id = channel_id
         self.title = channel['items'][0]['snippet']['title']
         self.description = channel['items'][0]['snippet']['description']
-        self.url = channel['items'][0]['snippet']["thumbnails"]["default"]["url"]
+        self.url = f'https://youtu.be/{channel["etag"]}'
         self.subscriber_count = channel['items'][0]["statistics"]['subscriberCount']
         self.video_count = channel['items'][0]["statistics"]['videoCount']
         self.view_count = channel['items'][0]["statistics"]['viewCount']
