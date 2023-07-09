@@ -13,14 +13,15 @@ class PlayList:
                                                        ).execute()
         video_ids: list[str] = [video['contentDetails']['videoId'] for video in playlist_videos['items']]
         self.video_response = youtube.videos().list(part='contentDetails,statistics',
-                                       id=','.join(video_ids)
-                                       ).execute()
+                                                    id=','.join(video_ids)
+                                                    ).execute()
         self.title = playlist_videos['items'][0]['snippet']['title'][:24]
         self.url = "https://www.youtube.com/playlist?list=" + playlist_id
 
     @property
     def total_duration(self):
-        for video in video_response['items']:
+        total = isodate.parse_duration('PT0M0S')
+        for video in self.video_response['items']:
             # YouTube video duration is in ISO 8601 format
             iso_8601_duration = video['contentDetails']['duration']
             duration = isodate.parse_duration(iso_8601_duration)
@@ -29,7 +30,7 @@ class PlayList:
 
     def show_best_video(self):
         likes_count = 0
-        for video in video_response['items']:
+        for video in self.video_response['items']:
             if likes_count < int(video['statistics']['likeCount']):
                 likes_count = int(video['statistics']['likeCount'])
                 best_video = video['id']
